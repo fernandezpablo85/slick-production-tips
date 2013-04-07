@@ -3,9 +3,7 @@ package org.example
 import scala.slick.driver.PostgresDriver.simple._
 import Database.threadLocalSession
 
-object UserDao {
-
-  val database = Database.forURL("jdbc:postgresql://localhost:5432/demo", driver = "org.postgresql.Driver")
+object UserDao extends DatabaseAccess {
 
   case class User(id: Option[Int], name: String, last: String)
 
@@ -23,13 +21,11 @@ object UserDao {
     )
   }
 
-  def insert(name: String, lastName: String) = {
-    database withSession {
-      Users.insertProjection.insert(User(None, name, lastName))
-    }
+  def insert(name: String, lastName: String) = databasePool withSession {
+    Users.insertProjection.insert(User(None, name, lastName))
   }
 
-  def findByLastName(last: String) = database withSession {
+	  def findByLastName(last: String) = databasePool withSession {
     val query = for (u <- Users if u.lastName is last) yield (u)
     query.list
   }

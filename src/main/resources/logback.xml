@@ -6,7 +6,11 @@
     </encoder>
   </appender>
 
-  <logger name="scala.slick.session" level="DEBUG">
+  <logger name="scala.slick.session" level="ERROR">
+    <appender-ref ref="STDOUT" />
+  </logger>
+
+  <logger name="com.mchange.v2.c3p0" level="OFF">
     <appender-ref ref="STDOUT" />
   </logger>
 
