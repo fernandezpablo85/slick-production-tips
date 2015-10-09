@@ -25,7 +25,7 @@ object UserDao extends DatabaseAccess {
     Users.insertProjection.insert(User(None, name, lastName))
   }
 
-	  def findByLastName(last: String) = databasePool withSession {
+  def findByLastName(last: String) = databasePool withSession {
     val query = for (u <- Users if u.lastName is last) yield (u)
     query.list
   }
